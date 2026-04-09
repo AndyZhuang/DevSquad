@@ -23,6 +23,7 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+/tmp/devsquad.log
 
 # Lock files (use bun.lockb instead)
 package-lock.json
@@ -31,7 +32,38 @@ yarn.lock
 # Environment
 .env
 .env.local
+.env.*
 test-injection/
 notepad.md
 oauth-success.html
 *.bun-build
+
+# Runtime data and user-specific directories
+.leader/
+.opencode/
+.issue-comment-2064.md
+
+# Local development
+local-ignore/
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Authentication and secrets
+.id_rsa
+.id_dsa
+*.key
+*.pem
+*.cer
+*.crt
+*.cert
+*.secret
+*.config
+!bunfig.toml  # This is needed for the project
+
+# Additional personal/temporary files
+*.pid
+*.seed
+*.db
+*.db-journal
