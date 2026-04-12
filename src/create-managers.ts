@@ -14,7 +14,7 @@ export type Managers = {
   tmuxSessionManager: TmuxSessionManager
   backgroundManager: BackgroundManager
   skillMcpManager: SkillMcpManager
-  configHandler: ReturnType<typeof createConfigHandler>
+  configHandler: (input: { sessionID?: string; model: string }, output: any) => Promise<void>
 }
 
 export function createManagers(args: {

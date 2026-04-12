@@ -52,7 +52,11 @@ export function createPluginInterface(args: {
 
     "experimental.chat.system.transform": createSystemTransformHandler(),
 
-    config: managers.configHandler,
+    config: ((configObj: Record<string, unknown>) => {
+      // For direct config calls - this is the signature expected by some contexts
+      const dummyInput = { sessionID: undefined as string | undefined, model: "" as any };
+      return (managers.configHandler as any)(dummyInput, configObj);
+    }) as any,
 
     event: createEventHandler({
       ctx,

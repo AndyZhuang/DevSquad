@@ -210,8 +210,24 @@ export function resolveModelPipeline(
   }
 
   if (systemDefaultModel === undefined) {
-    log("No model resolved - systemDefaultModel not configured")
+    log("No model resolved - systemDefaultModel not configured", {
+      attempted,
+      availableModelsCount: availableModels.size,
+      fallbackChainLength: fallbackChain?.length ?? 0
+    })
     return undefined
+  }
+
+  // Check if systemDefaultModel is available before returning it
+  if (availableModels.size > 0) {
+    const systemDefaultMatch = fuzzyMatchModel(systemDefaultModel, availableModels)
+    if (systemDefaultMatch) {
+      log("Model resolved via system default (fuzzy matched)", {
+        original: systemDefaultModel,
+        matched: systemDefaultMatch
+      })
+      return { model: systemDefaultMatch, provenance: "system-default", attempted }
+    }
   }
 
   log("Model resolved via system default", { model: systemDefaultModel })

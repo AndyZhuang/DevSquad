@@ -6,6 +6,7 @@ import { normalizeSDKResponse } from "../../shared"
 
 const DEFAULT_POLL_INTERVAL_MS = 500
 const DEFAULT_REQUIRED_CONSECUTIVE = 1
+const DEFAULT_POLL_TIMEOUT_MS = 30 * 60 * 1000 // 30 minutes
 const ERROR_GRACE_CYCLES = 3
 const MIN_STABILIZATION_MS = 1_000
 
@@ -13,6 +14,7 @@ export interface PollOptions {
   pollIntervalMs?: number
   requiredConsecutive?: number
   minStabilizationMs?: number
+  timeoutMs?: number
 }
 
 export async function pollForCompletion(
@@ -28,12 +30,19 @@ export async function pollForCompletion(
     options.minStabilizationMs ?? MIN_STABILIZATION_MS
   const minStabilizationMs =
     rawMinStabilizationMs > 0 ? rawMinStabilizationMs : MIN_STABILIZATION_MS
+  const pollTimeoutMs = options.timeoutMs ?? DEFAULT_POLL_TIMEOUT_MS
   let consecutiveCompleteChecks = 0
   let errorCycleCount = 0
   let firstWorkTimestamp: number | null = null
   const pollStartTimestamp = Date.now()
 
   while (!abortController.signal.aborted) {
+    // Check poll timeout to prevent infinite loops
+    if (Date.now() - pollStartTimestamp > pollTimeoutMs) {
+      console.error(pc.red(`\n\nPoll timeout (${pollTimeoutMs / 1000}s) reached. Halting.`))
+      return 1
+    }
+
     await new Promise((resolve) => setTimeout(resolve, pollIntervalMs))
 
     if (abortController.signal.aborted) {

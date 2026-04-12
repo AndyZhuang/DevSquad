@@ -2,19 +2,37 @@
 
 ## For Humans
 
+**Recommended Global Installation Method:**
+
 Paste this into your llm agent session:
 ```
 Install and configure devsquad by following the instructions here:
 https://raw.githubusercontent.com/devsquad-ai/devsquad/refs/heads/master/docs/guide/installation.md
 ```
 
-**Alternative, Not recommended, do this by yourself**
-
-Run the interactive installer:
+Or install manually using these commands:
 
 ```bash
-bunx devsquad install # recommended
-npx devsquad install # alternative
+npm install -g devsquad  # Install globally
+bunx devsquad install   # Run interactive setup wizard
+```
+
+**Alternative Methods:**
+
+If you prefer using npx instead of global installation:
+
+```bash
+npx devsquad install # Run setup wizard without global install
+```
+
+**Development Installation (Only for Contributors)**
+
+⚠️ **Warning**: This method is only for developers who want to modify the DevSquad source code. Installing in development mode locally may conflict with your global OpenCode installation.
+
+```bash
+git clone https://github.com/devsquad-ai/devsquad.git
+cd devsquad
+bun install
 ```
 
 > **Note**: The CLI ships with standalone binaries for all major platforms. No runtime (Bun/Node.js) is required for CLI execution after installation.

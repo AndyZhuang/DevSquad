@@ -107,12 +107,11 @@ export type BuiltinAgentName =
   | "sisyphus"
   | "hephaestus"
   | "oracle"
-#MH|  | "librarian"
-#PP|  | "explore"
-#ZQ|  | "metis"
-#QS|  | "momus"
-#RM|  | "atlas"
-#HT|  | "prometheus"
+  | "librarian"
+  | "explore"
+  | "metis"
+  | "momus"
+  | "atlas"
 export type OverridableAgentName =
   | "build"
   | BuiltinAgentName

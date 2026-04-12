@@ -19,7 +19,12 @@ export interface ConfigHandlerDeps {
 export function createConfigHandler(deps: ConfigHandlerDeps) {
   const { ctx, pluginConfig, modelCacheState } = deps;
 
-  return async (config: Record<string, unknown>) => {
+  return async (
+    input: { sessionID?: string; model: string },
+    output: { system: string[] }
+  ) => {
+    const config = output as unknown as Record<string, unknown>;
+    
     applyProviderConfig({ config, modelCacheState });
 
     const pluginComponents = await loadPluginComponents({ pluginConfig });

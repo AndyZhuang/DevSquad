@@ -36,10 +36,11 @@ export async function resolveSession(options: {
     })
 
     if (res.error) {
+      const errorMsg = serializeError(res.error)
       console.error(
         pc.yellow(`Session create attempt ${attempt}/${SESSION_CREATE_MAX_RETRIES} failed:`)
       )
-      console.error(pc.dim(`  Error: ${serializeError(res.error)}`))
+      console.error(pc.dim(`  Error: ${errorMsg}`))
 
       if (attempt < SESSION_CREATE_MAX_RETRIES) {
         const delay = SESSION_CREATE_RETRY_DELAY_MS * attempt
@@ -55,7 +56,7 @@ export async function resolveSession(options: {
 
     console.error(
       pc.yellow(
-        `Session create attempt ${attempt}/${SESSION_CREATE_MAX_RETRIES}: No session ID returned`
+        `Session create attempt ${attempt}/${SESSION_CREATE_MAX_RETRIES}: No session ID returned (client may be responding slowly)`
       )
     )
 

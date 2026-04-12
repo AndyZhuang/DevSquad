@@ -84,13 +84,16 @@ export async function checkAndInterruptStaleTasks(args: {
     const sessionIsRunning = sessionStatus !== undefined && sessionStatus !== "idle"
     const runtime = now - startedAt.getTime()
 
+    // Check for session that has been idle with no progress
     if (!task.progress?.lastUpdate) {
       if (sessionIsRunning) continue
       if (runtime <= messageStalenessMs) continue
 
+      // Task has been running without progress for a while and session is idle
+      // This indicates a stuck task - cancel it
       const staleMinutes = Math.round(runtime / 60000)
       task.status = "cancelled"
-      task.error = `Stale timeout (no activity for ${staleMinutes}min since start)`
+      task.error = `Stale timeout (no progress for ${staleMinutes}min, session idle)`
       task.completedAt = new Date()
 
       if (task.concurrencyKey) {
@@ -99,7 +102,7 @@ export async function checkAndInterruptStaleTasks(args: {
       }
 
       client.session.abort({ path: { id: sessionID } }).catch(() => {})
-      log(`[background-agent] Task ${task.id} interrupted: no progress since start`)
+      log(`[background-agent] Task ${task.id} interrupted: stuck with no progress`)
 
       try {
         await notifyParentSession(task)
@@ -109,6 +112,7 @@ export async function checkAndInterruptStaleTasks(args: {
       continue
     }
 
+    // Check for task that stopped making progress
     if (sessionIsRunning) continue
 
     if (runtime < MIN_RUNTIME_BEFORE_STALE_MS) continue

@@ -19,33 +19,48 @@ export async function processEvents(
   stream: AsyncIterable<unknown>,
   state: EventState
 ): Promise<void> {
-  for await (const event of stream) {
-    if (ctx.abortController.signal.aborted) break
+  let completed = false
+  let hadError = false
 
-    try {
-      const payload = event as EventPayload
-      if (!payload?.type) {
-        if (ctx.verbose) {
-          console.error(pc.dim(`[event] no type: ${JSON.stringify(event)}`))
+  try {
+    for await (const event of stream) {
+      if (ctx.abortController.signal.aborted) break
+
+      try {
+        const payload = event as EventPayload
+        if (!payload?.type) {
+          if (ctx.verbose) {
+            console.error(pc.dim(`[event] no type: ${JSON.stringify(event)}`))
+          }
+          continue
         }
-        continue
-      }
 
+        if (ctx.verbose) {
+          logEventVerbose(ctx, payload)
+        }
+
+        handleSessionError(ctx, payload, state)
+        handleSessionIdle(ctx, payload, state)
+        handleSessionStatus(ctx, payload, state)
+        handleMessagePartUpdated(ctx, payload, state)
+        handleMessagePartDelta(ctx, payload, state)
+        handleMessageUpdated(ctx, payload, state)
+        handleToolExecute(ctx, payload, state)
+        handleToolResult(ctx, payload, state)
+        handleTuiToast(ctx, payload, state)
+      } catch (err) {
+        hadError = true
+        console.error(pc.red(`[event error] ${err}`))
+      }
+    }
+    completed = true
+  } finally {
+    // Cleanup: clean up orphaned background tasks if stream ended unexpectedly
+    if (!completed && !hadError) {
+      // Stream ended normally but event processing wasn't explicitly stopped
       if (ctx.verbose) {
-        logEventVerbose(ctx, payload)
+        console.log(pc.dim("[event-processor] Stream ended, cleanup completed"))
       }
-
-      handleSessionError(ctx, payload, state)
-      handleSessionIdle(ctx, payload, state)
-      handleSessionStatus(ctx, payload, state)
-      handleMessagePartUpdated(ctx, payload, state)
-      handleMessagePartDelta(ctx, payload, state)
-      handleMessageUpdated(ctx, payload, state)
-      handleToolExecute(ctx, payload, state)
-      handleToolResult(ctx, payload, state)
-      handleTuiToast(ctx, payload, state)
-    } catch (err) {
-      console.error(pc.red(`[event error] ${err}`))
     }
   }
 }

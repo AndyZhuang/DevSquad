@@ -77,16 +77,20 @@ const DevSquadPlugin: Plugin = async (ctx) => {
     ...pluginInterface,
 
     "experimental.session.compacting": async (
-      _input: { sessionID: string },
+      _input: { sessionID?: string },
       output: { context: string[] },
     ): Promise<void> => {
-      await hooks.compactionTodoPreserver?.capture(_input.sessionID)
-      await hooks.claudeCodeHooks?.["experimental.session.compacting"]?.(
-        _input,
-        output,
-      )
-      if (hooks.compactionContextInjector) {
-        output.context.push(hooks.compactionContextInjector(_input.sessionID))
+      if (_input.sessionID) {
+        await hooks.compactionTodoPreserver?.capture(_input.sessionID)
+        // Create a compatible input object for the Claude Code hook
+        const claudeCodeInput = { sessionID: _input.sessionID };
+        await hooks.claudeCodeHooks?.["experimental.session.compacting"]?.(
+          claudeCodeInput,
+          output,
+        )
+        if (hooks.compactionContextInjector) {
+          output.context.push(hooks.compactionContextInjector(_input.sessionID))
+        }
       }
     },
   }

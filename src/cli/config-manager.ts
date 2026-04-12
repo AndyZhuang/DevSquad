@@ -11,8 +11,8 @@ export { addPluginToOpenCodeConfig } from "./config-manager/add-plugin-to-openco
 
 export { generateDevsquadConfig } from "./config-manager/generate-devsquad-config"
 export { generateOmoConfig } from "./config-manager/generate-devsquad-config"
-export { writeDevsquadConfig, writeDevsquadConfig as writeOmoConfig } from "./config-manager/write-devsquad-config"
-export { writeOmoConfig as writeDevsquadConfigOld } from "./config-manager/write-devsquad-config"
+export { writeDevsquadConfig } from "./config-manager/write-devsquad-config"
+export { writeDevsquadConfig as writeOmoConfig } from "./config-manager/write-devsquad-config"
 
 export { isOpenCodeInstalled, getOpenCodeVersion } from "./config-manager/opencode-binary"
 

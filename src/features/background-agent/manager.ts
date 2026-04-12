@@ -295,15 +295,18 @@ export class BackgroundManager {
 
     if (this.onSubagentSessionCreated && this.tmuxEnabled && isInsideTmux()) {
       log("[background-agent] Invoking tmux callback NOW", { sessionID })
-      await this.onSubagentSessionCreated({
-        sessionID,
-        parentID: input.parentSessionID,
-        title: input.description,
-      }).catch((err) => {
+      try {
+        await this.onSubagentSessionCreated({
+          sessionID,
+          parentID: input.parentSessionID,
+          title: input.description,
+        })
+        log("[background-agent] tmux callback completed, waiting 200ms")
+        await new Promise(r => setTimeout(r, 200))
+      } catch (err) {
         log("[background-agent] Failed to spawn tmux pane:", err)
-      })
-      log("[background-agent] tmux callback completed, waiting 200ms")
-      await new Promise(r => setTimeout(r, 200))
+        // Don't wait 200ms on error - proceed immediately to prompt
+      }
     } else {
       log("[background-agent] SKIP tmux callback - conditions not met")
     }

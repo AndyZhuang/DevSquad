@@ -1,14 +1,12 @@
 # Dependencies
-.sisyphus/*
-!.sisyphus/rules/
 node_modules/
 
 # Build output
 dist/
+dist/cli/
 
 # Platform binaries (built, not committed)
-packages/*/bin/oh-my-opencode
-packages/*/bin/oh-my-opencode.exe
+packages/
 
 # IDE
 .idea/
@@ -33,15 +31,12 @@ yarn.lock
 .env
 .env.local
 .env.*
-test-injection/
-notepad.md
-oauth-success.html
-*.bun-build
 
 # Runtime data and user-specific directories
-.leader/
 .opencode/
-.issue-comment-2064.md
+.leader/
+.sisyphus/
+!.sisyphus/rules/
 
 # Local development
 local-ignore/
@@ -49,6 +44,7 @@ local-ignore/
 *.temp
 *.bak
 *.backup
+test-injection/
 
 # Authentication and secrets
 .id_rsa
@@ -60,10 +56,20 @@ local-ignore/
 *.cert
 *.secret
 *.config
-!bunfig.toml  # This is needed for the project
+!bunfig.toml
 
 # Additional personal/temporary files
 *.pid
 *.seed
 *.db
 *.db-journal
+
+# Issue comment files (temp notes)
+.issue-comment-*.md
+
+# Log files
+notepad.md
+oauth-success.html
+
+# Bun build artifacts
+*.bun-build

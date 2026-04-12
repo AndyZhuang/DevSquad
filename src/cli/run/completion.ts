@@ -73,7 +73,10 @@ async function areAllTodosComplete(ctx: RunContext): Promise<boolean> {
 
 async function areAllChildrenIdle(ctx: RunContext): Promise<boolean> {
   const allStatuses = await fetchAllStatuses(ctx)
-  return areAllDescendantsIdle(ctx, ctx.sessionID, allStatuses)
+
+  // Use a Set to track checked sessions and prevent circular reference loops
+  const checkedSessions = new Set<string>()
+  return areAllDescendantsIdle(ctx, ctx.sessionID, allStatuses, checkedSessions)
 }
 
 async function fetchAllStatuses(
@@ -88,8 +91,15 @@ async function fetchAllStatuses(
 async function areAllDescendantsIdle(
   ctx: RunContext,
   sessionID: string,
-  allStatuses: Record<string, SessionStatus>
+  allStatuses: Record<string, SessionStatus>,
+  checkedSessions: Set<string>
 ): Promise<boolean> {
+  // Prevent circular references in session tree
+  if (checkedSessions.has(sessionID)) {
+    return true
+  }
+  checkedSessions.add(sessionID)
+
   const childrenRes = await ctx.client.session.children({
     path: { id: sessionID },
     query: { directory: ctx.directory },
@@ -106,7 +116,8 @@ async function areAllDescendantsIdle(
     const descendantsIdle = await areAllDescendantsIdle(
       ctx,
       child.id,
-      allStatuses
+      allStatuses,
+      checkedSessions
     )
     if (!descendantsIdle) {
       return false
