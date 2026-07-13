@@ -2,6 +2,8 @@
 
 > Transform your AI coding assistant into a coordinated development team - OpenCode Plugin with Multi-Agent Orchestration
 
+🌐 **Website**: [devsquad-ai.github.io](https://devsquad-ai.github.io)
+
 DevSquad is a powerful OpenCode plugin that transforms your AI coding assistant into a coordinated development team. Type `upup` and watch your AI team ship code.
 
 ## Features
@@ -38,7 +40,7 @@ opencode --version
 
 ```bash
 npm install -g devsquad-ai  # Install globally
-bunx devsquad install       # Run interactive setup wizard
+bunx devsquad-ai install    # Run interactive setup wizard
 ```
 
 **Step 3: Authenticate with providers**
@@ -62,7 +64,7 @@ https://github.com/DevSquad-AI/DevSquad/blob/master/docs/guide/installation.md
 
 ```bash
 git clone https://github.com/DevSquad-AI/DevSquad.git
-cd devsquad
+cd DevSquad
 bun install
 ```
 
@@ -117,7 +119,7 @@ Configuration is stored in `~/.config/opencode/devsquad.json` (or `.opencode/dev
 }
 ```
 
-> **Note**: Agent names in config use internal identifiers. Run `bunx devsquad install` for interactive setup.
+> **Note**: Agent names in config use internal identifiers. Run `bunx devsquad-ai install` for interactive setup.
 
 ## Documentation
 
@@ -169,18 +171,13 @@ Configuration is stored in `~/.config/opencode/devsquad.json` (or `.opencode/dev
 | `bun run typecheck` | Type checking |
 | `bun run build:schema` | Rebuild JSON schema |
 
-## Bug Fixes & Improvements
+## Recent Improvements
 
-Recent improvements:
-- **Event stream cleanup** - Proper completion tracking prevents zombie sessions
-- **Session creation retries** - Better error messages with detailed diagnostics
-- **Tmux spawning** - Non-blocking on error, 200ms wait only on success
-- **Model resolution** - Validates fallback availability before returning system default
-- **JSONC validation** - Vds syntax before modification
-- **Circular reference protection** - Session traversal prevents infinite loops
-- **Stale task detection** - Improved error messages and stuck session handling
-- **Poll timeout** - 30-minute maximum to prevent infinite loops
-- **Background task cleanup** - Proper concurrency slot management
+- **Improved stability** - Better session management and error handling
+- **Enhanced reliability** - Stale task detection with 30-min timeout
+- **Streamlined workflow** - Non-blocking tmux spawning and proper concurrency slot management
+
+> For full changelog, see [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
