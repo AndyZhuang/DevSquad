@@ -1,8 +1,8 @@
 # DevSquad
 
-> Aim to be the Best AI Agent Harness - Optimized for Chinese Models (Qwen, MiniMax, GLM)
+> Transform your AI coding assistant into a coordinated development team - OpenCode Plugin with Multi-Agent Orchestration
 
-DevSquad is a powerful OpenCode plugin that transforms your AI coding assistant into a coordinated development team. Built on the foundation of opencode, with optimized defaults for Chinese AI models.
+DevSquad is a powerful OpenCode plugin that transforms your AI coding assistant into a coordinated development team. Type `upup` and watch your AI team ship code.
 
 ## Features
 
@@ -19,65 +19,84 @@ DevSquad is a powerful OpenCode plugin that transforms your AI coding assistant 
 
 ## Quick Install
 
+### Prerequisites
+
+**DevSquad requires [OpenCode](https://opencode.ai) to be installed first.**
+
+### For Humans
+
+**Step 1: Install OpenCode** (if not already installed)
+
+```bash
+# Check if OpenCode is installed
+opencode --version
+
+# If not installed, follow: https://opencode.ai/docs
+```
+
+**Step 2: Install DevSquad**
+
+```bash
+npm install -g devsquad-ai  # Install globally
+bunx devsquad install       # Run interactive setup wizard
+```
+
+**Step 3: Authenticate with providers**
+
+```bash
+opencode auth login  # Login to your model providers (Claude, Gemini, etc.)
+```
+
+After installation, type `upup` in OpenCode and your AI team goes to work.
+
 ### For AI Agents
 
 Paste this to your LLM agent (Claude Code, Cursor, etc.):
 
 ```
 Install and configure devsquad by following the instructions here:
-https://github.com/devsquad-ai/devsquad/blob/master/docs/guide/installation.md
+https://github.com/DevSquad-AI/DevSquad/blob/master/docs/guide/installation.md
 ```
 
-### For Humans
-
-**Recommended Method (Global Installation):**
+### Development Installation
 
 ```bash
-npm install -g devsquad
-bunx devsquad install
-```
-
-**Alternative Development Method:**
-
-```bash
-git clone https://github.com/devsquad-ai/devsquad.git
+git clone https://github.com/DevSquad-AI/DevSquad.git
 cd devsquad
 bun install
 ```
 
-After installation, type `upup` and your AI team goes to work.
-
 ## Supported Models
 
-DevSquad is optimized for Chinese models out of the box:
+DevSquad works with any OpenCode-compatible model provider. **Optimized for Chinese models first:**
 
-| Provider | Models |
-|----------|--------|
-| **Qwen** (Alibaba) | qwen-coder-turbo, qwen-max, qwen-vl-max |
-| **MiniMax** | minimax-m2.5-free |
-| **GLM** (Zhipu) | glm-5, glm-4v |
+| Priority | Provider | Models |
+|----------|----------|--------|
+| **1st** | **MiniMax** | MiniMax-M2.5, MiniMax-M3 (recommended) |
+| **2nd** | **GLM** (Zhipu) | glm-4.7, glm-5 |
+| **3rd** | **Qwen** (Alibaba) | qwen-coder-turbo, qwen-max |
+| **4th** | **DeepSeek** | deepseek-coder, deepseek-chat |
+| **5th** | **Claude** (via OpenRouter) | claude-opus-4.7, claude-sonnet-4.5 |
 
-Also supports: Claude, GPT, Gemini as fallbacks.
-
-**Provider Priority**: Native > GitHub Copilot > OpenCode Zen > Z.ai Coding Plan
+Also supports: Kimi, GPT, Gemini as fallbacks.
 
 ## Agents
 
-| Agent | Role | Default Model | Notes |
-|-------|------|---------------|-------|
-| **Leader** | Main orchestrator | qwen-coder-turbo | Claude-optimized, Opus 4.6 recommended |
-| **Worker** | Autonomous deep worker | minimax-m2.5-free | GPT-5.3-codex required |
-| **Architect** | Architecture consultant | glm-5 | GPT-5.2 preferred |
-| **Researcher** | Docs/code search | minimax-m2.5-free | Free-tier optimized |
-| **Scout** | Codebase exploration | minimax-m2.5-free | Speed-focused, Grok Code Fast default |
-| **Planner** | Strategic planning | qwen-max | Dual-prompt (Claude/GPT) |
-| **Advisor** | Plan consultant | qwen-max |Dual-prompt (Claude/GPT) |
-| **Reviewer** | Code review | glm-5 | GPT-5.2 preferred |
-| **Multimodal Looker** | Vision/screenshots | kimi-k2.5-free | Kimi for multimodal tasks |
+| Agent | Role | Description |
+|-------|------|-------------|
+| **Leader** | Main orchestrator | Coordinates the team, executes tasks |
+| **Worker** | Deep worker | Autonomous implementation |
+| **Architect** | Architecture consultant | Complex problem solving |
+| **Researcher** | Docs/code search | Documentation and code lookup |
+| **Scout** | Codebase exploration | Fast grep and exploration |
+| **Planner** | Strategic planning | Todo orchestration |
+| **Advisor** | Plan consultant | Plan review and refinement |
+| **Reviewer** | Code review | Quality verification |
+| **Multimodal Looker** | Vision tasks | Screenshot and image analysis |
 
 ## Commands
 
-- `upup` - Start a full development session
+- `upup` - Start a full development session (type this in OpenCode)
 - `/start-work` - Interview-mode planning with Advisor
 - `/upup-loop` - Ralph loop for continuous work
 - `/init-deep` - Auto-generate AGENTS.md hierarchy
@@ -89,15 +108,16 @@ Configuration is stored in `~/.config/opencode/devsquad.json` (or `.opencode/dev
 
 ```jsonc
 {
+  "enabled": true,
   "agents": {
-    "leader": { "model": "anthropic/claude-opus-4-6" }
-  },
-  "features": {
-    "tmux": true,
-    "background": true
+    "leader": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5"
+    }
   }
 }
 ```
+
+> **Note**: Agent names in config use internal identifiers. Run `bunx devsquad install` for interactive setup.
 
 ## Documentation
 
@@ -164,9 +184,9 @@ Recent improvements:
 
 ## License
 
-ISC - See LICENSE.md
+MIT License - See LICENSE.md
 
 ## Credits
 
 Built on the shoulders of giants - inspired by Claude Code, OpenCode, and AmpCode.
-Thank you to Oh-My-OpenCode (oh-my-opencode) for laying the foundation.
+Thank you to Oh-My-OpenCode for laying the foundation.

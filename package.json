@@ -1,36 +1,7 @@
 {
-  "name": "devsquad",
+  "name": "devsquad-ai",
   "version": "1.0.0",
-  "description": "The Best AI Agent Harness - OpenCode Plugin with Multi-Model Orchestration, Optimized for Chinese Models (Qwen, MiniMax, GLM)",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "bin": {
-    "devsquad": "bin/devsquad.js"
-  },
-  "files": [
-    "dist",
-    "bin",
-    "postinstall.mjs"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./schema.json": "./dist/devsquad.schema.json"
-  },
-  "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target bun --format esm --external @ast-grep/napi && tsc --emitDeclarationOnly && bun build src/cli/index.ts --outdir dist/cli --target bun --format esm --external @ast-grep/napi && bun run build:schema",
-    "build:all": "bun run build && bun run build:binaries",
-    "build:binaries": "bun run script/build-binaries.ts",
-    "build:schema": "bun run script/build-schema.ts",
-    "clean": "rm -rf dist",
-    "postinstall": "node postinstall.mjs",
-    "prepublishOnly": "bun run clean && bun run build",
-    "typecheck": "tsc --noEmit",
-    "test": "bun test"
-  },
+  "description": "Dream to be The Best AI Agent Harness - OpenCode Plugin with Multi-Model Orchestration, Optimized for Chinese Models (Qwen, MiniMax, GLM)",
   "keywords": [
     "opencode",
     "plugin",
@@ -42,16 +13,48 @@
     "minimax",
     "glm"
   ],
-  "author": "DevSquad Team",
-  "license": "ISC",
+  "homepage": "https://github.com/DevSquad-AI/DevSquad#readme",
+  "bugs": {
+    "url": "https://github.com/DevSquad-AI/DevSquad/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devsquad-ai/devsquad.git"
+    "url": "git+https://github.com/DevSquad-AI/DevSquad.git"
   },
-  "bugs": {
-    "url": "https://github.com/devsquad-ai/devsquad/issues"
+  "license": "MIT",
+  "author": "DevSquad Team",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema.json": "./dist/devsquad.schema.json"
   },
-  "homepage": "https://github.com/devsquad-ai/devsquad#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "devsquad": "bin/devsquad.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "postinstall.mjs"
+  ],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun --format esm --external @ast-grep/napi && tsc --emitDeclarationOnly && bun build src/cli/index.ts --outdir dist/cli --target bun --format esm --external @ast-grep/napi && bun run build:schema",
+    "build:all": "bun run build && bun run build:binaries",
+    "build:binaries": "bun run script/build-binaries.ts",
+    "build:schema": "bun run script/build-schema.ts",
+    "clean": "rm -rf dist",
+    "postinstall": "node postinstall.mjs",
+    "prepublishOnly": "bun run clean && bun run build",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
   "dependencies": {
     "@ast-grep/cli": "^0.40.0",
     "@ast-grep/napi": "^0.40.0",
@@ -89,8 +92,5 @@
     "@ast-grep/cli",
     "@ast-grep/napi",
     "@code-yeongyu/comment-checker"
-  ],
-  "directories": {
-    "doc": "docs"
-  }
+  ]
 }
